@@ -12,11 +12,12 @@ The official Makefile and `Makefile.config` build are complemented by a [communi
 
 - [Docker setup](https://github.com/BVLC/caffe/tree/master/docker) *out-of-the-box brewing*
 - [Ubuntu installation](install_apt.html) *the standard platform*
+- [Debian installation](install_apt_debian.html) *install caffe with a single command*
 - [OS X installation](install_osx.html)
 - [RHEL / CentOS / Fedora installation](install_yum.html)
 - [Windows](https://github.com/BVLC/caffe/tree/windows) *see the Windows branch led by Guillaume Dumont*
 - [OpenCL](https://github.com/BVLC/caffe/tree/opencl) *see the OpenCL branch led by Fabian Tschopp*
-- [AWS AMI](https://github.com/bitfusionio/amis/tree/master/awsmrkt-bfboost-ubuntu14-cuda75-caffe) *pre-configured for AWS*
+- [AWS AMI](https://aws.amazon.com/marketplace/pp/B01M0AXXQB) *official deep learning amazon machine image from AWS*
 
 **Overview**:
 
@@ -63,7 +64,7 @@ Caffe requires BLAS as the backend of its matrix and vector computations.
 There are several implementations of this library. The choice is yours:
 
 * [ATLAS](http://math-atlas.sourceforge.net/): free, open source, and so the default for Caffe.
-* [Intel MKL](http://software.intel.com/en-us/intel-mkl): commercial and optimized for Intel CPUs, with a free trial and [student](http://software.intel.com/en-us/intel-education-offerings) licenses.
+* [Intel MKL](http://software.intel.com/en-us/intel-mkl): commercial and optimized for Intel CPUs, with [free](https://registrationcenter.intel.com/en/forms/?productid=2558) licenses.
     1. Install MKL.
     2. Set up MKL environment (Details: [Linux](https://software.intel.com/en-us/node/528499), [OS X](https://software.intel.com/en-us/node/528659)). Example: *source /opt/intel/mkl/bin/mklvars.sh intel64*
     3. Set `BLAS := mkl` in `Makefile.config`
@@ -79,7 +80,7 @@ The main requirements are `numpy` and `boost.python` (provided by boost). `panda
 
 You can install the dependencies with
 
-    for req in $(cat requirements.txt); do pip install $req; done
+    pip install -r requirements.txt
 
 but we suggest first installing the [Anaconda](https://store.continuum.io/cshop/anaconda/) Python distribution, which provides most of the necessary packages, as well as the `hdf5` library dependency.
 
