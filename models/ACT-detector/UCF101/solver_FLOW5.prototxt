@@ -9,7 +9,6 @@ weight_decay: 0.0005
 snapshot: 5000
 snapshot_prefix: "models/ACT-detector/UCF101/FLOW5"
 solver_mode: GPU
-device_id: 3
 debug_info: false
 snapshot_after_train: true
 average_loss: 10
@@ -17,4 +16,4 @@ stepvalue: 400000
 stepvalue: 550000
 iter_size: 1
 type: "SGD"
-
+layer_wise_reduce: false

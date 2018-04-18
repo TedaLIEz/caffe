@@ -11,18 +11,19 @@ def train(
         solver,  # solver proto definition
         snapshot,  # solver snapshot to restore
         gpus,  # list of device ids
-        timing=False,  # show timing info for compute and communications
+        pretrain,
+        timing=False  # show timing info for compute and communications
 ):
     # NCCL uses a uid to identify a session
     uid = caffe.NCCL.new_uid()
 
-    caffe.init_log()
+#    caffe.init_log()
     caffe.log('Using devices %s' % str(gpus))
 
     procs = []
     for rank in range(len(gpus)):
         p = Process(target=solve,
-                    args=(solver, snapshot, gpus, timing, uid, rank))
+                    args=(solver, snapshot, gpus, timing, uid, rank, pretrain))
         p.daemon = True
         p.start()
         procs.append(p)
@@ -62,7 +63,7 @@ def time(solver, nccl):
     solver.add_callback(lambda: '', lambda: (allrd.stop(), show_time()))
 
 
-def solve(proto, snapshot, gpus, timing, uid, rank):
+def solve(proto, snapshot, gpus, timing, uid, rank, pretrain):
     caffe.set_mode_gpu()
     caffe.set_device(gpus[rank])
     caffe.set_solver_count(len(gpus))
@@ -70,6 +71,7 @@ def solve(proto, snapshot, gpus, timing, uid, rank):
     caffe.set_multiprocess(True)
 
     solver = caffe.SGDSolver(proto)
+    solver.net.copy_from(pretrain)
     if snapshot and len(snapshot) != 0:
         solver.restore(snapshot)
 
@@ -95,6 +97,7 @@ if __name__ == '__main__':
     parser.add_argument("--gpus", type=int, nargs='+', default=[0],
                         help="List of device ids.")
     parser.add_argument("--timing", action='store_true', help="Show timing info.")
+    parser.add_argument("--pretrain", help="pretrain model")
     args = parser.parse_args()
 
-    train(args.solver, args.snapshot, args.gpus, args.timing)
+    train(args.solver, args.snapshot, args.gpus, args.pretrain, args.timing)
