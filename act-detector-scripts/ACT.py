@@ -50,7 +50,7 @@ def extract_tubelets(dname, gpu=-1, redo=False):
     
     # load the FLOW5 network
     flo_proto = os.path.join(model_dir, "deploy_FLOW5.prototxt")
-    flo_model = os.path.join(model_dir, "FLOW5.caffemodel")
+    flo_model = os.path.join(model_dir, "FLOW5_iter_200000.caffemodel")
     net_flo = caffe.Net(flo_proto, caffe.TEST, weights=flo_model)
 
     vlist = d.test_vlist()

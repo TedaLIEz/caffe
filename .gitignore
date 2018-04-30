@@ -1,4 +1,7 @@
 ## General
+cache/
+*.png
+results/
 
 # Compiled Object files
 *.slo
